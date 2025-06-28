@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis Deportivo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <script>
+        // Verificar si el usuario está autenticado
+        if (!localStorage.getItem('username')) {
+            window.location.href = 'login.html';
+        }
+    </script>
+
+    <nav class="sidebar-left">
+        <div class="logo">Un Real</div>
+        <ul class="nav-menu">
+            <li><img src="svgs/home.svg" alt="Inicio">Inicio</li>
+            <li><img src="svgs/search.svg" alt="Búsqueda">Búsqueda</li>
+            <li><img src="svgs/explore.svg" alt="Explorar">Explorar</li>
+            <li><img src="svgs/video.svg" alt="Reels">Reels</li>
+            <li><img src="svgs/messages.svg" alt="Mensajes">Mensajes</li>
+            <li><img src="svgs/messages.svg" alt="Notificaciones">Notificaciones</li>
+            <li><img src="svgs/create.svg" alt="Crear">Crear</li>
+            <li><img src="svgs/user.svg" alt="Perfil">Perfil</li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="instagram-post">
+            <div class="post-header">
+                <div class="user-info">
+                    <div class="profile-pic">
+                        <img src="images/perfil.png" alt="Foto de perfil">
+                    </div>
+                    <div class="username">
+                        <script>
+                            document.write('@' + localStorage.getItem('username') + ' ✓');
+                        </script>
+                    </div>
+                </div>
+                <div class="more-options">•••</div>
+            </div>
+
+            <div class="content-container">
+                <div class="post-image">
+                    <img src="images/img1.png" alt="Post Image" id="mainImage">
+                </div>
+            </div>
+
+            <div class="post-actions">
+                <div class="action-buttons">
+                    <div class="left-actions">
+                        <img src="svgs/like.svg" alt="Like" class="action-icon like">
+                        <img src="svgs/comment.svg" alt="Comment" class="action-icon">
+                        <img src="svgs/share.svg" alt="Share" class="action-icon">
+                    </div>
+                    <img src="svgs/bookmark.svg" alt="Save" class="action-icon">
+                </div>
+                <div class="likes-count">120 Me gusta</div>
+                <div class="post-time">Hace 3 horas</div>
+            </div>
+
+            <div class="comments-section">
+                <input type="text" placeholder="Añade un comentario..." class="comment-input">
+            </div>
+        </div>
+
+        <div class="comments-sidebar">
+            <h3>Comentarios del público</h3>
+            <div class="comment-pill" onclick="changeImage('images/img4.png')">
+                "Te ves genial, me gusta mucho tu estilo 😍"
+            </div>
+            <div class="comment-pill" onclick="changeImage('images/img2.png')">
+                "Te ves terrible deberías hacer dieta 😢"
+            </div>
+            <div class="comment-pill" onclick="showScreamer()">
+                "Si estuvieras flaca te vería mejor 😂👎"
+            </div>
+            <div class="comment-pill" onclick="changeImage('images/img1.png')">
+                "Borra mejor tu foto, no te ves bien 😭"
+            </div>
+        </div>
+    </div>
+    <div id="screamer">
+        <video id="screamerVideo" src="video/screamer.mp4"></video>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
