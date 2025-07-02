@@ -33,7 +33,7 @@
             <div class="post-header">
                 <div class="user-info">
                     <div class="profile-pic">
-                        <img src="images/perfil.png" alt="Foto de perfil">
+                        <img src="images/perfil.svg" alt="Foto de perfil">
                     </div>
                     <div class="username">
                         <script>
@@ -45,9 +45,14 @@
             </div>
 
             <div class="content-container">
-                <div class="post-image">
-                    <img src="images/img1.png" alt="Post Image" id="mainImage">
+                <button class="feed-nav prev" onclick="changeFeed(-1)">❮</button>
+                <div class="post-image" style="width: 100%; height: 500px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                    <img id="defaultImage" src="./images/PREDETERMINADO.webp" alt="Imagen predeterminada" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain;">
+                    <video id="mainVideo" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: none;">
+                        <source src="video/FELIZ.mp4" type="video/mp4">
+                    </video>
                 </div>
+                <button class="feed-nav next" onclick="changeFeed(1)">❯</button>
             </div>
 
             <div class="post-actions">
@@ -59,33 +64,47 @@
                     </div>
                     <img src="svgs/bookmark.svg" alt="Save" class="action-icon">
                 </div>
-                <div class="likes-count">120 Me gusta</div>
+                <div class="likes-count">0 Me gusta</div>
                 <div class="post-time">Hace 3 horas</div>
             </div>
 
             <div class="comments-section">
-                <input type="text" placeholder="Añade un comentario..." class="comment-input">
+                <div class="comment-input-wrapper">
+                    <input type="text" placeholder="Añade un comentario..." class="comment-input" id="commentInput">
+                    <div id="emoji-picker" class="emoji-picker" style="display: none;">
+                        <span onclick="addEmoji('😊')">😊</span>
+                        <span onclick="addEmoji('❤️')">❤️</span>
+                        <span onclick="addEmoji('😍')">😍</span>
+                        <span onclick="addEmoji('🥰')">🥰</span>
+                        <span onclick="addEmoji('😭')">😭</span>
+                        <span onclick="addEmoji('😢')">😢</span>
+                        <span onclick="addEmoji('👍')">👍</span>
+                        <span onclick="addEmoji('🔥')">🔥</span>
+                    </div>
+                </div>
+                <button class="emoji-button" onclick="toggleEmojiPicker()">😊</button>
+                <button class="submit-comment" onclick="addComment()">Publicar</button>
             </div>
         </div>
 
         <div class="comments-sidebar">
             <h3>Comentarios del público</h3>
-            <div class="comment-pill" onclick="changeImage('images/feed1/feliz.png')">
+            <div class="comment-pill" onclick="playVideo('video/feed1/FELIZ.mp4')">
                 "Te ves genial, me gusta mucho tu estilo 😍"
             </div>
-            <div class="comment-pill" onclick="changeImage('images/feed1/triste.png')">
+            <div class="comment-pill" onclick="playVideo('video/feed1/LLORANDO.mp4')">
                 "Te ves terrible deberías hacer dieta 😢"
             </div>
             <div class="comment-pill" onclick="showScreamer()">
                 "Si estuvieras flaca te vería mejor 😂👎"
             </div>
-            <div class="comment-pill" onclick="changeImage('images/feed1/enojada.png')">
+            <div class="comment-pill" onclick="playVideo('video/feed1/ENOJADA.mp4')">
                 "Borra mejor tu foto, no te ves bien 😭"
             </div>
         </div>
     </div>
     <div id="screamer">
-        <video id="screamerVideo" src="video/screamer.mp4"></video>
+        <video id="screamerVideo" src="video/feed1/screamer.mp4"></video>
     </div>
     <script src="script.js"></script>
 </body>
