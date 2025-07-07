@@ -8,10 +8,10 @@
 </head>
 <body>
     <div class="login-container">
-        <h1>Un Real</h1>
-        <form id="loginForm" onsubmit="return handleLogin(event)">
-            <input type="text" id="username" placeholder="Nombre de usuario" required>
-            <button type="submit">Iniciar sesión</button>
+        <div class="login-logo">Un Real</div>
+        <form onsubmit="handleLogin(event)">
+            <input type="text" id="username" placeholder="Usuario" required>
+            <button type="submit" class="login-button">Iniciar sesión</button>
         </form>
     </div>
     <script>
@@ -20,7 +20,6 @@
             const username = document.getElementById('username').value;
             localStorage.setItem('username', username);
             window.location.href = 'index.html';
-            return false;
         }
     </script>
 </body>
