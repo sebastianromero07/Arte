@@ -210,14 +210,21 @@ body::before {
     top: -120px;
     left: 0;
     background: #262626;
-    padding: 8px;
+    padding: 10px;
     border-radius: 8px;
-    display: grid;
+    display: none;
     grid-template-columns: repeat(4, 1fr);
-    gap: 5px;
+    gap: 8px;
     z-index: 1000;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    width: 200px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.emoji-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 5px 10px;
 }
 
 .emoji-picker span {

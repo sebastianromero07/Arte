@@ -17,35 +17,6 @@ function playVideo(src) {
     };
 }
 
-function showScreamer() {
-    const screamer = document.getElementById('screamer');
-    const video = document.getElementById('screamerVideo');
-    screamer.style.display = 'block';
-    video.play();
-    
-    video.onended = function() {
-        screamer.style.display = 'none';
-    };
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    const likeButton = document.querySelector('.like');
-    const likesCount = document.querySelector('.likes-count');
-    let likes = 0;
-    let isLiked = false;
-
-    if (likeButton) {
-        likeButton.addEventListener('click', function() {
-            if (!isLiked) {
-                this.src = 'svgs/like-color.svg';
-                isLiked = true;
-            }
-            likes++;
-            likesCount.textContent = likes + ' Me gusta';
-        });
-    }
-});
-
 const feeds = [
     {
         image: './images/PREDETERMINADO.webp',
@@ -59,12 +30,12 @@ const feeds = [
     {
         image: './images/PREDETERMINADO2.webp',
         comments: [
-            { text: "¡Qué linda foto! 🌟", video: 'video/feed2/FELIZ.mp4' },
-            { text: "No me gusta tu outfit 😒", video: 'video/feed2/TRISTE.mp4' },
-            { text: "Deberías cambiar tu estilo 🤔", video: 'video/feed2/ENOJADA.mp4' },
-            { text: "Me encanta como te ves 💕", video: 'video/feed2/FELIZ.mp4' }
+            { text: "¡Qué linda foto! 🌟", video: 'video/feed2/THANKS.mp4' },
+            { text: "Cambia de cuerpo mejor 😂", video: 'video/feed2/SAD.mp4' },
+            { text: "Mejor métete anabolicos 👎", action: 'showScreamer' },
+            { text: "Metele una papa más al caldo 🍲", video: 'video/feed2/ANGRY.mp4' }
         ]
-    }
+    }       
 ];
 
 let currentFeedIndex = 0;
@@ -118,3 +89,76 @@ window.onload = function() {
         commentsSidebar.appendChild(div);
     });
 };
+
+function toggleEmojiPicker() {
+    const picker = document.getElementById('emoji-picker');
+    if (!picker) return;
+    
+    if (picker.style.display === 'none' || !picker.style.display) {
+        picker.style.display = 'grid';
+    } else {
+        picker.style.display = 'none';
+    }
+}
+
+function addEmoji(emoji) {
+    const input = document.getElementById('commentInput');
+    if (!input) return;
+    
+    const cursorPos = input.selectionStart;
+    const textBefore = input.value.substring(0, cursorPos);
+    const textAfter = input.value.substring(cursorPos);
+    
+    input.value = textBefore + emoji + textAfter;
+    input.focus();
+}
+
+// Actualizar la función showScreamer para manejar diferentes screamers según el feed
+function showScreamer() {
+    const screamer = document.getElementById('screamer');
+    const video = document.getElementById('screamerVideo');
+    video.src = currentFeedIndex === 0 ? 'video/feed1/screamer.mp4' : 'video/feed2/screamerM.mp4';
+    screamer.style.display = 'block';
+    video.play();
+    
+    video.onended = function() {
+        screamer.style.display = 'none';
+    };
+}
+
+function addComment() {
+    const input = document.getElementById('commentInput');
+    const text = input.value.trim();
+    
+    if (text) {
+        const commentsSidebar = document.querySelector('.comments-sidebar');
+        const newComment = document.createElement('div');
+        newComment.className = 'comment-pill';
+        
+        // Agregar efecto alternado (izquierda/derecha) basado en la cantidad de comentarios
+        const commentsCount = commentsSidebar.querySelectorAll('.comment-pill').length;
+        if (commentsCount % 2 === 0) {
+            newComment.style.marginLeft = '0';
+            newComment.style.marginRight = '40px';
+            newComment.style.animation = 'float 3s ease-in-out infinite';
+        } else {
+            newComment.style.marginLeft = '40px';
+            newComment.style.marginRight = '0';
+            newComment.style.animation = 'float 3.5s ease-in-out infinite';
+        }
+        
+        // Agregar el texto con formato igual a los otros comentarios
+        newComment.textContent = `"${text}"`;
+        
+        // Insertar el nuevo comentario después del título
+        const title = commentsSidebar.querySelector('h3');
+        title.insertAdjacentElement('afterend', newComment);
+        
+        // Limpiar el input y cerrar el emoji picker si está abierto
+        input.value = '';
+        const emojiPicker = document.getElementById('emoji-picker');
+        if (emojiPicker) {
+            emojiPicker.style.display = 'none';
+        }
+    }
+}
