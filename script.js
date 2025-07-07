@@ -35,10 +35,37 @@ const feeds = [
             { text: "Mejor métete anabolicos 👎", action: 'showScreamer' },
             { text: "Metele una papa más al caldo 🍲", video: 'video/feed2/ANGRY.mp4' }
         ]
-    }       
+    },
+    {
+        image: './images/PREDETERMINADO3.jpg',
+        comments: [
+            { text: "Mejor toma tu leche 🤮", action: 'showScreamer' }
+        ]
+    },
+    {
+        image: './images/PREDETERMINADO4.png',
+        comments: [
+            { text: "Mejor ponte botox no se ve bien tu piel 😱", action: 'showScreamer' }
+        ]
+    },
+    {
+        image: './images/PREDETERMINADO5.png',
+        comments: [
+            { text: "Deja de subir fotos, nadie quiere verte 🤢", action: 'showScreamer' }
+        ]
+    }
 ];
 
 let currentFeedIndex = 0;
+
+// Agregar estado de likes para cada feed
+let feedLikes = [
+    { count: 0, isLiked: false },
+    { count: 0, isLiked: false },
+    { count: 0, isLiked: false },
+    { count: 0, isLiked: false },
+    { count: 0, isLiked: false }
+];
 
 function changeFeed(direction) {
     currentFeedIndex = (currentFeedIndex + direction + feeds.length) % feeds.length;
@@ -66,6 +93,11 @@ function changeFeed(direction) {
     // Resetear likes
     document.querySelector('.likes-count').textContent = '0 Me gusta';
     document.querySelector('.like').src = 'svgs/like.svg';
+    
+    // Actualizar estado de likes para el nuevo feed
+    const currentFeed = feedLikes[currentFeedIndex];
+    document.querySelector('.likes-count').textContent = currentFeed.count + ' Me gusta';
+    document.querySelector('.like').src = currentFeed.isLiked ? 'svgs/like-color.svg' : 'svgs/like.svg';
 }
 
 // Al cargar la página, asegurarse de que solo se muestren los comentarios originales
@@ -117,13 +149,47 @@ function addEmoji(emoji) {
 function showScreamer() {
     const screamer = document.getElementById('screamer');
     const video = document.getElementById('screamerVideo');
-    video.src = currentFeedIndex === 0 ? 'video/feed1/screamer.mp4' : 'video/feed2/screamerM.mp4';
+    
+    if (currentFeedIndex === 0) {
+        video.src = 'video/feed1/screamer.mp4';
+    } else if (currentFeedIndex === 1) {
+        video.src = 'video/feed2/screamerM.mp4';
+    } else if (currentFeedIndex === 2) {
+        video.src = 'video/feed3/screamerBajo.mp4';
+    } else if (currentFeedIndex === 3) {
+        video.src = 'video/feed4/screamerA.mp4';
+    } else {
+        video.src = 'video/feed5/screamerN.mp4';
+    }
+    
     screamer.style.display = 'block';
-    video.play();
+    // Asegurarnos de que el video se cargue antes de reproducirlo
+    video.load();
+    
+    // Usar la promesa de play() para manejar la reproducción
+    const playPromise = video.play();
+    
+    if (playPromise !== undefined) {
+        playPromise.then(() => {
+            // La reproducción comenzó con éxito
+        }).catch(error => {
+            console.log("Error reproduciendo el video:", error);
+        });
+    }
     
     video.onended = function() {
         screamer.style.display = 'none';
     };
+}
+
+function playNotificationSound() {
+    const audio = new Audio('audio/notifi.mp3');
+    audio.play();
+}
+
+function playLikeSound() {
+    const audio = new Audio('audio/like.mp3');
+    audio.play();
 }
 
 function addComment() {
@@ -160,5 +226,26 @@ function addComment() {
         if (emojiPicker) {
             emojiPicker.style.display = 'none';
         }
+        
+        // Reproducir sonido de notificación
+        playNotificationSound();
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const likeButton = document.querySelector('.like');
+    const likesCount = document.querySelector('.likes-count');
+
+    if (likeButton) {
+        likeButton.addEventListener('click', function() {
+            const currentFeed = feedLikes[currentFeedIndex];
+            if (!currentFeed.isLiked) {
+                this.src = 'svgs/like-color.svg';
+                currentFeed.isLiked = true;
+            }
+            currentFeed.count++;
+            likesCount.textContent = currentFeed.count + ' Me gusta';
+            playLikeSound(); // Reproducir sonido al dar like
+        });
+    }
+});

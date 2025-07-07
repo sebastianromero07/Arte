@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <audio id="backgroundAudio" src="audio/fondo-audio.mp3" loop></audio>
     <div class="login-container">
         <div class="login-logo">Un Real</div>
         <form onsubmit="handleLogin(event)">
@@ -15,6 +16,15 @@
         </form>
     </div>
     <script>
+        // Reproducir audio al cargar la página
+        window.onload = function() {
+            const audio = document.getElementById('backgroundAudio');
+            // Reproducir el audio como respuesta a una interacción del usuario
+            document.addEventListener('click', function() {
+                audio.play();
+            }, { once: true });
+        }
+
         function handleLogin(event) {
             event.preventDefault();
             const username = document.getElementById('username').value;
